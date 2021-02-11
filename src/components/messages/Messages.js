@@ -45,6 +45,14 @@ class Messages extends React.Component {
     this.setState(data);
   }
 
+  deleteMessage = (messageId) => {
+    this.props.deleteMessage(messageId).then(() => {
+      this.fetchMessages();
+      this.setState({
+        message: ''
+      })
+    })
+  }
 
   render() {
     let display = (<div>No Messages Found</div>)
@@ -53,7 +61,7 @@ class Messages extends React.Component {
         return (
           <li key={value.id}>
             <span>{value.username}</span><br/>
-            {value.text}<br/>
+            {value.text} <button onClick={() => this.deleteMessage(value.id)}>x</button><br/>
             <span>{value.createdAt}</span>
             </li>
         )
