@@ -19,7 +19,7 @@ class Messages extends React.Component {
 
   fetchMessages = () => {
     this.props.getMessage(this.props.username).then((res) => {
-      console.log(res.payload)
+      console.log(res.payload, 'list of messages')
       this.setState({
         messages: res.payload.messages,
         count: res.payload.count
@@ -45,12 +45,17 @@ class Messages extends React.Component {
     this.setState(data);
   }
 
+
   render() {
     let display = (<div>No Messages Found</div>)
     if (this.state.messages) {
       display = this.state.messages.map((value) => {
         return (
-          <li key={value.id}>{value.text}</li>
+          <li key={value.id}>
+            <span>{value.username}</span><br/>
+            {value.text}<br/>
+            <span>{value.createdAt}</span>
+            </li>
         )
       })
     }
