@@ -56,7 +56,16 @@ class Messages extends React.Component {
     });
   };
 
+
+
+  handleUnlike = (likeId) => {
+    this.props.removeLike(likeId).then(() => {
+      this.fetchMessages();
+    })
+  }
+
   handleLike = (messageId) => {
+    if (messageId)
     this.props.addLike(messageId).then(() => {
       this.fetchMessages();
     });
@@ -85,6 +94,8 @@ class Messages extends React.Component {
               name="Like"
               likeCount={value.likes.length}
               handleLike={() => this.handleLike(value.id)}
+              handleUnlike= {() => this.handleUnlike(value.likes[0].id)}
+              
             />
           </li>
         );
