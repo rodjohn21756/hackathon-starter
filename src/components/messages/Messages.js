@@ -1,5 +1,9 @@
 import React from "react";
 import { withAsyncAction } from "../../redux/HOCs";
+import LikeButton from "../likeButton/likeButton";
+import 'semantic-ui-css/semantic.min.css';
+
+
 
 class Messages extends React.Component {
   constructor(props) {
@@ -19,7 +23,7 @@ class Messages extends React.Component {
 
   fetchMessages = () => {
     this.props.getMessage(this.props.username).then((res) => {
-      console.log(res.payload)
+      console.log(res.payload, 'list of messages')
       this.setState({
         messages: res.payload.messages,
         count: res.payload.count
@@ -45,12 +49,32 @@ class Messages extends React.Component {
     this.setState(data);
   }
 
+  deleteMessage = (messageId) => {
+    this.props.deleteMessage(messageId).then(() => {
+      this.fetchMessages();
+      this.setState({
+        message: ''
+      })
+    })
+  }
+
   render() {
     let display = (<div>No Messages Found</div>)
     if (this.state.messages) {
       display = this.state.messages.map((value) => {
         return (
-          <li key={value.id}>{value.text}</li>
+          <li key={value.id}>
+            <span>{value.username}</span><br/>
+            {value.text} <button onClick={() => this.deleteMessage(value.id)}>x</button><br/>
+            <span>{value.createdAt}</span>
+            <LikeButton
+                      name = "Like"
+                      value = {value.length}
+                    handleLike = {this.handleLike}
+
+  
+            />
+            </li>
         )
       })
     }
@@ -63,6 +87,13 @@ class Messages extends React.Component {
         <div className="NewMessage">
           <input name="message" onChange={this.handleChange} value={this.state.message}/>
           <button onClick={this.newMessageHandler}> Send Message </button>
+
+          {/* <LikeButton
+            color='red'
+            content='Like'
+            icon='heart'
+            label={{ basic: true, color: 'red', pointing: 'left', content: '2,048' }}
+         /> */}
         </div>
       </div>
     );
