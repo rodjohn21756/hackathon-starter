@@ -1,5 +1,9 @@
 import React from "react";
 import { withAsyncAction } from "../../redux/HOCs";
+import LikeButton from "../likeButton/likeButton";
+import 'semantic-ui-css/semantic.min.css';
+
+
 
 class Messages extends React.Component {
   constructor(props) {
@@ -63,6 +67,13 @@ class Messages extends React.Component {
             <span>{value.username}</span><br/>
             {value.text} <button onClick={() => this.deleteMessage(value.id)}>x</button><br/>
             <span>{value.createdAt}</span>
+            <LikeButton
+                      name = "Like"
+                      value = {value.length}
+                    handleLike = {this.handleLike}
+
+  
+            />
             </li>
         )
       })
@@ -76,6 +87,13 @@ class Messages extends React.Component {
         <div className="NewMessage">
           <input name="message" onChange={this.handleChange} value={this.state.message}/>
           <button onClick={this.newMessageHandler}> Send Message </button>
+
+          {/* <LikeButton
+            color='red'
+            content='Like'
+            icon='heart'
+            label={{ basic: true, color: 'red', pointing: 'left', content: '2,048' }}
+         /> */}
         </div>
       </div>
     );
